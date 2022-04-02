@@ -1,0 +1,16 @@
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local.py
+db.sqlite3
+media
+
+### vscode ###
+.vscode/µ
