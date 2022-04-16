@@ -5,5 +5,5 @@ from . import views
 app_name = 'apiv1'
 
 urlpatterns = [
-    path(r'', views.CostViewCreate.as_view()),
+    path(r'api/v1/', views.CostViewCreate.as_view()),
 ]
