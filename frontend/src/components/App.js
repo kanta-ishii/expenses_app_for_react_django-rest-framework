@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
+import React, { Component } from 'react';
+import { createRoot } from 'react-dom/client';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("api/v1/")
+    fetch("http://localhost:8000/api/v1/")
       .then(response => {
         if (response.status > 400) {
           return this.setState(() => {
@@ -42,7 +42,6 @@ class App extends Component {
           );
         })}
       </ul>
-
     );
   }
 }
@@ -50,4 +49,7 @@ class App extends Component {
 export default App;
 
 const container = document.getElementById("app");
-render(<App />, container);
+const root = createRoot(container);
+root.render(
+  <App />,
+);
