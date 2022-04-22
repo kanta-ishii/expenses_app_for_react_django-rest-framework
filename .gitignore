@@ -13,8 +13,8 @@ db.sqlite3
 media
 
 ### React ###
-/node_modules
-/static/frontend/*
+*node_modules
+frontend/static/frontend/*
 
 ### vscode ###
 .vscode/
