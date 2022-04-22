@@ -1,7 +1,7 @@
 import uuid
 from django.utils import timezone
 from django.db import models
-from django.db.models import UUIDField, CharField, IntegerField, DateField, ManyToManyField, ForeignKey
+from django.db.models import UUIDField, CharField, IntegerField, DateField, BooleanField, ForeignKey
 
 
 class Cost(models.Model):
@@ -12,6 +12,7 @@ class Cost(models.Model):
     id          = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     store_name  = ForeignKey('store', on_delete=models.PROTECT)
     purchase_on = DateField('purchase_on', default=timezone.now, blank=True)
+    is_income   = BooleanField('income', default=False)
     price       = IntegerField('total_price')
 
 
