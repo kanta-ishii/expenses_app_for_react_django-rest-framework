@@ -4,8 +4,8 @@ from . import models
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Store
-        field = ('name',)
+        model  = models.Store
+        fields = '__all__'
 
 
 class CostSerializer(serializers.ModelSerializer):

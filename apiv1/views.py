@@ -1,8 +1,5 @@
 from rest_framework import generics
 from rest_framework import viewsets
-from rest_framework import request
-from rest_framework.response import Response
-from rest_framework.decorators import action
 
 from . import models
 from . import serializers
