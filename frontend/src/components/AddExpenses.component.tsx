@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import ReactDOM from "react-dom";
 import {
   useForm,
   Controller,
@@ -18,20 +17,19 @@ var moment = require("moment");
 const defaultValues = {
     store_name: {
         value: "error",
-        label: "Select or enter store_name from here to register a new store_name."
+        label: "Select or Enter store_name..."
     },
     purchase_on: new Date(),
     price: 0,
   };
 
 type FormValues = {
-    store_name: { name: string, label: string };
+    store_name: { value: string, label: string };
     purchase_on: Date;
     price: number;
 };
 
 function AddExpenses() {
-    // TODO any型を取り止めたい
     const storeNameOptions: any = [];
     const {
       handleSubmit,
@@ -54,15 +52,16 @@ function AddExpenses() {
             .then(data => {
                 console.log(data);
                 Object.keys(data).forEach((key) => {
-                    storeNameOptions.push({ name: data[key].name, label: data[key].name });
+                    storeNameOptions.push({ value: data[key].name, label: data[key].name });
                 });
                 console.log(storeNameOptions);
             })
-    })
+    }, [])
 
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+      console.log(data)
         const datas = {
-            store_name: data.store_name.name,
+            store_name: data.store_name.value,
             purchase_on: moment(data.purchase_on).format('YYYY-MM-DD'),
             price: data.price
         }
@@ -78,20 +77,32 @@ function AddExpenses() {
         console.log(datas)
     }
 
+    const validationRules = {
+      store_name: {
+        validate: (value: { value: string, label: string }) => {
+          if (value.value == 'error') {
+            return 'Select or Enter store_name.'
+          }
+          return true
+        },
+      }
+    }
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="form">
   
             <Block>
                 <Controller
-                    render={({field}) => (
-                        <CreatableSelect
-                            isClearable
-                            options={storeNameOptions}
-                            {...field}
-                        />
-                    )}
                     name='store_name'
                     control={control}
+                    rules={validationRules.store_name}
+                    render={({field}) => (
+                        <CreatableSelect
+                          isClearable
+                          options={storeNameOptions}
+                          {...field}
+                        />
+                    )}
                 />
             </Block>
   
@@ -107,7 +118,9 @@ function AddExpenses() {
                             mask='____/__/__'
                             inputFormat='yyyy/MM/dd'
                             renderInput={(params) => (
-                              <TextField {...params} />
+                              <TextField
+                                {...params}
+                              />
                             )}
                             {...field}
                         />

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,42 +7,33 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-type Props = {};
-type State = {
-  data: any,
-  loaded: boolean,
-  placeholder: string
-};
 
-class ExpensesList extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      data: [],
-      loaded: false,
-      placeholder: "Loading"
-    };
-  }
+function ExpensesList() {
+  const [state, setState] = React.useState({
+    data: [],
+    loaded: false,
+    placeholder: "Loading"
+  });
 
-  componentDidMount() {
+  useEffect(() => {
     fetch("http://localhost:8000/api/v1/cost/")
       .then(response => {
         if (response.status > 400) {
-          return this.setState({ placeholder: "Something went wrong!" });
+          return setState({ ...state, placeholder: "Something went wrong!" });
         }
         return response.json();
       })
       .then(data => {
-        this.setState({
+        setState({
+            ...state,
             data,
             loaded: true
         });
       });
-  }
+  }, [])
 
-  render() {
     return (
-      <div>
+      <>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -53,7 +44,7 @@ class ExpensesList extends Component<Props, State> {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.data.map((contact: any) => (
+              {state.data.map((contact: any) => (
                 <TableRow
                   key={contact.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -68,9 +59,8 @@ class ExpensesList extends Component<Props, State> {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </>
     );
-  }
 }
 
 export default ExpensesList;
